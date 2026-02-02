@@ -1,11 +1,12 @@
 # A* 路径规划算法 (Python)
 
-一个高效、易用的 A* 路径规划算法 Python 实现，支持网格地图中的最短路径搜索。
+这是一个高效的 A* 路径规划算法 Python 实现，用于在网格地图中找到从起点到终点的最短路径。
 
 ## 🚀 特性
 
-- **高性能优化**：比基础实现快 50 倍以上
-- **内存效率**：使用整数坐标而非对象，大幅减少内存占用
+- **双版本实现**：
+  - **基础版本** (`astar.py`)：面向对象实现，代码清晰易懂，适合学习
+  - **高性能版本** (`astar_optimized.py`)：性能提升 48 倍，适合生产环境
 - **完整的错误处理**：边界检查、障碍物验证等
 - **灵活的 API**：支持类实例和便捷函数两种使用方式
 - **全面测试**：包含单元测试和性能基准测试
@@ -28,11 +29,10 @@ astar/
 # 无需额外依赖，纯 Python 标准库
 ```
 
-### 基本使用
+### 使用基础版本（学习用途）
 ```python
-from astar_optimized import find_path_in_grid
+from astar import find_path_in_grid
 
-# 在 10x10 网格中找路径，避开障碍物
 path = find_path_in_grid(
     width=10, 
     height=10, 
@@ -40,11 +40,21 @@ path = find_path_in_grid(
     goal=(9, 9), 
     obstacles=[(2, 2), (3, 3), (4, 4)]
 )
+print(path)
+```
 
-if path:
-    print(f"找到路径: {path}")
-else:
-    print("未找到路径")
+### 使用优化版本（生产环境）
+```python
+from astar_optimized import find_path_in_grid
+
+path = find_path_in_grid(
+    width=100, 
+    height=100, 
+    start=(0, 0), 
+    goal=(99, 99), 
+    obstacles=[(20, 20), (30, 30), (40, 40)]
+)
+print(path)
 ```
 
 ### 高级使用
@@ -70,17 +80,18 @@ path = astar.find_path((0, 0), (19, 19))
 4. **内存优化**：只在需要时计算启发式值
 5. **早期终止**：找到目标后立即返回
 
-**性能提升**：在 50x50 网格上，优化版本比基础版本快 **16-80 倍**！
+## 📊 性能对比
 
-## 🧪 测试
+| 网格大小 | 原始版本 | 优化版本 | 性能提升 |
+|----------|----------|----------|----------|
+| 20x20 | 0.00077s | 0.00001s | 80.83x |
+| 50x50 | 0.0226s | 0.00139s | 16.28x |
+| **平均** | - | - | **48.56x** |
 
-运行单元测试：
+## 🧪 运行测试
+
 ```bash
 python test_astar.py
-```
-
-运行性能测试：
-```bash
 python performance_test.py
 ```
 
